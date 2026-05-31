@@ -1,0 +1,292 @@
+.hero {
+  padding: 80px 20px 60px;
+  background: linear-gradient(135deg, #ffffff 0%, #f9f7ff 100%);
+  position: relative;
+  overflow: hidden;
+}
+
+.hero-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 60px;
+  align-items: center;
+}
+
+.hero-content {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+.hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: #f3e9ff;
+  padding: 10px 16px;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  color: #6c5ce7;
+  font-weight: 600;
+  width: fit-content;
+}
+
+.badge-icon {
+  animation: pulse 2s infinite;
+}
+
+.hero-title {
+  font-size: 3.5rem;
+  font-weight: 800;
+  line-height: 1.2;
+  color: #1a1a2e;
+  margin: 0;
+}
+
+.hero-title .text-primary {
+  background: linear-gradient(135deg, #6c5ce7 0%, #a29bfe 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.hero-description {
+  font-size: 1.125rem;
+  color: #6b7280;
+  line-height: 1.6;
+  margin: 0;
+}
+
+.hero-buttons {
+  display: flex;
+  gap: 16px;
+  margin-top: 12px;
+}
+
+.hero-features {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  margin-top: 12px;
+}
+
+.feature-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.feature-icon {
+  font-size: 1.5rem;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #f3e9ff;
+  border-radius: 8px;
+}
+
+.feature-title {
+  font-weight: 600;
+  color: #1a1a2e;
+  font-size: 0.95rem;
+}
+
+.hero-image {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 500px;
+}
+
+.hero-illustration {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.illustration-content {
+  position: relative;
+  width: 300px;
+  height: 400px;
+}
+
+.books-stack {
+  position: absolute;
+  bottom: 60px;
+  left: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: -10px;
+  z-index: 2;
+}
+
+.book {
+  width: 140px;
+  height: 100px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-weight: 700;
+  font-size: 1rem;
+  margin-top: -15px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  transform: skewY(-3deg);
+}
+
+.book.physics {
+  background: linear-gradient(135deg, #6c5ce7 0%, #a29bfe 100%);
+}
+
+.book.chemistry {
+  background: linear-gradient(135deg, #7b68ee 0%, #b19cff 100%);
+}
+
+.book.biology {
+  background: linear-gradient(135deg, #c0c0c0 0%, #e8e8e8 100%);
+}
+
+.stethoscope {
+  position: absolute;
+  top: 80px;
+  right: 60px;
+  font-size: 3rem;
+  animation: float 3s ease-in-out infinite;
+  z-index: 3;
+}
+
+.device-mockup {
+  position: absolute;
+  top: 50px;
+  right: 20px;
+  width: 180px;
+  height: 280px;
+  background: white;
+  border-radius: 20px;
+  box-shadow: 0 20px 60px rgba(108, 92, 231, 0.2);
+  padding: 12px;
+  border: 8px solid #1a1a2e;
+  z-index: 4;
+}
+
+.device-screen {
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, #6c5ce7 0%, #5f4fd8 100%);
+  border-radius: 12px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  color: white;
+}
+
+.screen-header {
+  font-weight: 700;
+  font-size: 0.9rem;
+  text-align: center;
+}
+
+.screen-content {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2rem;
+}
+
+.checkmark {
+  color: #4ecca7;
+  font-weight: bold;
+}
+
+@media (max-width: 1024px) {
+  .hero-container {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+
+  .hero-title {
+    font-size: 2.5rem;
+  }
+
+  .hero-image {
+    height: 350px;
+  }
+}
+
+@media (max-width: 768px) {
+  .hero {
+    padding: 60px 20px 40px;
+  }
+
+  .hero-title {
+    font-size: 2rem;
+  }
+
+  .hero-buttons {
+    flex-direction: column;
+  }
+
+  .btn {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .hero-image {
+    height: 300px;
+  }
+
+  .illustration-content {
+    width: 250px;
+    height: 350px;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero {
+    padding: 40px 16px 30px;
+  }
+
+  .hero-title {
+    font-size: 1.5rem;
+  }
+
+  .hero-description {
+    font-size: 1rem;
+  }
+
+  .hero-image {
+    height: 250px;
+  }
+
+  .illustration-content {
+    width: 200px;
+    height: 300px;
+  }
+
+  .device-mockup {
+    width: 140px;
+    height: 220px;
+    border-width: 6px;
+  }
+
+  .books-stack {
+    gap: 0;
+  }
+
+  .book {
+    width: 100px;
+    height: 70px;
+    font-size: 0.8rem;
+  }
+}
