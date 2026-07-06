@@ -281,21 +281,6 @@ const ProfilePage = ({ user, fullName, initials }) => {
             </span>
           </div>
         </div>
-
-        <div className="profile-section">
-          <h2>Bookmarks</h2>
-          <button className="section-link">View saved questions</button>
-        </div>
-
-        <div className="profile-section">
-          <h2>Achievements</h2>
-          <button className="section-link">View achievements</button>
-        </div>
-
-        <div className="profile-section">
-          <h2>Subscription</h2>
-          <button className="section-link">Upgrade plan</button>
-        </div>
       </div>
     </div>
   )
@@ -343,7 +328,7 @@ const Dashboard = () => {
     ?.split(' ')
     .map((n) => n[0])
     .join('')
-    .toUpperCase() || user.email?.charAt(0).toUpperCase()
+    .toUpperCase() || user.email?.charAt(0).toUpperCase() || 'U'
 
   const fullName = user.user_metadata?.full_name || user.email?.split('@')[0] || 'User'
 
