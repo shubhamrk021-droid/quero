@@ -9,178 +9,13 @@ import {
   LogOut,
   Menu,
   X,
-  BookOpen,
-  Zap,
-  BarChart3,
-  Users,
-  Trophy,
   ChevronRight,
   Heart,
-  Share2,
 } from 'lucide-react'
 import './Dashboard.css'
 
-const Dashboard = () => {
-  const { user, signOut, loading } = useAuth()
-  const navigate = useNavigate()
-  const [isSigningOut, setIsSigningOut] = useState(false)
-  const [sidebarOpen, setSidebarOpen] = useState(true)
-  const [activePage, setActivePage] = useState('home')
-  const [selectedExam, setSelectedExam] = useState('NEET UG')
-
-  useEffect(() => {
-    if (!loading && !user) {
-      navigate('/login')
-    }
-  }, [user, loading, navigate])
-
-  const handleLogout = async () => {
-    setIsSigningOut(true)
-    const { error } = await signOut()
-    if (!error) {
-      navigate('/login')
-    }
-    setIsSigningOut(false)
-  }
-
-  if (loading) {
-    return (
-      <div className="loading-container">
-        <div className="loading-spinner">
-          <div className="spinner"></div>
-          <p>Loading...</p>
-        </div>
-      </div>
-    )
-  }
-
-  if (!user) {
-    return null
-  }
-
-  const initials = user.user_metadata?.full_name
-    ?.split(' ')
-    .map((n) => n[0])
-    .join('')
-    .toUpperCase() || user.email?.charAt(0).toUpperCase()
-
-  const fullName = user.user_metadata?.full_name || user.email?.split('@')[0] || 'User'
-
-  const navItems = [
-    { id: 'home', label: 'Home', icon: Home },
-    { id: 'search', label: 'Search', icon: Search },
-    { id: 'notifications', label: 'Notifications', icon: Bell },
-    { id: 'profile', label: 'Profile', icon: User },
-  ]
-
-  const renderPage = () => {
-    switch (activePage) {
-      case 'home':
-        return <HomePage selectedExam={selectedExam} user={user} fullName={fullName} />
-      case 'search':
-        return <SearchPage />
-      case 'notifications':
-        return <NotificationsPage />
-      case 'profile':
-        return <ProfilePage user={user} fullName={fullName} initials={initials} />
-      default:
-        return <HomePage selectedExam={selectedExam} user={user} fullName={fullName} />
-    }
-  }
-
-  return (
-    <div className="dashboard-layout">
-      {/* Sidebar */}
-      <aside className={`sidebar ${sidebarOpen ? 'open' : 'closed'}`}>
-        <div className="sidebar-header">
-          <div className="logo">
-            <div className="logo-box">Q</div>
-            {sidebarOpen && <span className="logo-text">quero</span>}
-          </div>
-          <button
-            className="sidebar-toggle"
-            onClick={() => setSidebarOpen(!sidebarOpen)}
-          >
-            {sidebarOpen ? <X size={20} /> : <Menu size={20} />}
-          </button>
-        </div>
-
-        <nav className="sidebar-nav">
-          {navItems.map((item) => (
-            <button
-              key={item.id}
-              className={`nav-item ${activePage === item.id ? 'active' : ''}`}
-              onClick={() => setActivePage(item.id)}
-              title={item.label}
-            >
-              <item.icon size={24} />
-              {sidebarOpen && <span>{item.label}</span>}
-            </button>
-          ))}
-        </nav>
-
-        <div className="sidebar-footer">
-          <button
-            className="logout-btn"
-            onClick={handleLogout}
-            disabled={isSigningOut}
-            title="Sign out"
-          >
-            <LogOut size={20} />
-            {sidebarOpen && (
-              <span>{isSigningOut ? 'Signing out...' : 'Sign Out'}</span>
-            )}
-          </button>
-        </div>
-      </aside>
-
-      {/* Main Content */}
-      <main className="main-content">
-        {/* Top Navigation Bar */}
-        <div className="top-nav">
-          <div className="top-nav-left">
-            <button
-              className="mobile-menu-toggle"
-              onClick={() => setSidebarOpen(!sidebarOpen)}
-            >
-              {sidebarOpen ? <X size={24} /> : <Menu size={24} />}
-            </button>
-          </div>
-
-          <div className="top-nav-right">
-            <div className="user-profile">
-              <div className="user-avatar-small">{initials}</div>
-              <span className="user-name-display">{fullName}</span>
-            </div>
-          </div>
-        </div>
-
-        {/* Page Content */}
-        <div className="page-content">
-          {renderPage()}
-        </div>
-      </main>
-
-      {/* Mobile Bottom Navigation */}
-      <nav className="bottom-nav">
-        {navItems.map((item) => (
-          <button
-            key={item.id}
-            className={`bottom-nav-item ${activePage === item.id ? 'active' : ''}`}
-            onClick={() => setActivePage(item.id)}
-            title={item.label}
-          >
-            <item.icon size={24} />
-            <span>{item.label}</span>
-          </button>
-        ))}
-      </nav>
-    </div>
-  )
-}
-
 // Home Page Component
-const HomePage = ({ selectedExam, user, fullName }) => {
+const HomePage = ({ fullName }) => {
   const [selectedYear, setSelectedYear] = useState(2024)
 
   const subjects = [
@@ -188,12 +23,6 @@ const HomePage = ({ selectedExam, user, fullName }) => {
     { name: 'Chemistry', icon: '🧪', color: '#4ECDC4' },
     { name: 'Biology', icon: '🧬', color: '#45B7D1' },
     { name: 'Zoology', icon: '🦁', color: '#FFA07A' },
-  ]
-
-  const mockTests = [
-    { title: 'Full Test', color: '#6c5ce7' },
-    { title: 'Subject Test', color: '#a29bfe' },
-    { title: 'Chapter Test', color: '#b19cd9' },
   ]
 
   return (
@@ -456,21 +285,177 @@ const ProfilePage = ({ user, fullName, initials }) => {
         <div className="profile-section">
           <h2>Bookmarks</h2>
           <button className="section-link">View saved questions</button>
-          <ChevronRight size={18} />
         </div>
 
         <div className="profile-section">
           <h2>Achievements</h2>
           <button className="section-link">View achievements</button>
-          <ChevronRight size={18} />
         </div>
 
         <div className="profile-section">
           <h2>Subscription</h2>
           <button className="section-link">Upgrade plan</button>
-          <ChevronRight size={18} />
         </div>
       </div>
+    </div>
+  )
+}
+
+// Main Dashboard Component
+const Dashboard = () => {
+  const { user, signOut, loading } = useAuth()
+  const navigate = useNavigate()
+  const [isSigningOut, setIsSigningOut] = useState(false)
+  const [sidebarOpen, setSidebarOpen] = useState(true)
+  const [activePage, setActivePage] = useState('home')
+
+  useEffect(() => {
+    if (!loading && !user) {
+      navigate('/login')
+    }
+  }, [user, loading, navigate])
+
+  const handleLogout = async () => {
+    setIsSigningOut(true)
+    const { error } = await signOut()
+    if (!error) {
+      navigate('/login')
+    }
+    setIsSigningOut(false)
+  }
+
+  if (loading) {
+    return (
+      <div className="loading-container">
+        <div className="loading-spinner">
+          <div className="spinner"></div>
+          <p>Loading...</p>
+        </div>
+      </div>
+    )
+  }
+
+  if (!user) {
+    return null
+  }
+
+  const initials = user.user_metadata?.full_name
+    ?.split(' ')
+    .map((n) => n[0])
+    .join('')
+    .toUpperCase() || user.email?.charAt(0).toUpperCase()
+
+  const fullName = user.user_metadata?.full_name || user.email?.split('@')[0] || 'User'
+
+  const navItems = [
+    { id: 'home', label: 'Home', icon: Home },
+    { id: 'search', label: 'Search', icon: Search },
+    { id: 'notifications', label: 'Notifications', icon: Bell },
+    { id: 'profile', label: 'Profile', icon: User },
+  ]
+
+  const renderPage = () => {
+    switch (activePage) {
+      case 'home':
+        return <HomePage fullName={fullName} />
+      case 'search':
+        return <SearchPage />
+      case 'notifications':
+        return <NotificationsPage />
+      case 'profile':
+        return <ProfilePage user={user} fullName={fullName} initials={initials} />
+      default:
+        return <HomePage fullName={fullName} />
+    }
+  }
+
+  return (
+    <div className="dashboard-layout">
+      {/* Sidebar */}
+      <aside className={`sidebar ${sidebarOpen ? 'open' : 'closed'}`}>
+        <div className="sidebar-header">
+          <div className="logo">
+            <div className="logo-box">Q</div>
+            {sidebarOpen && <span className="logo-text">quero</span>}
+          </div>
+          <button
+            className="sidebar-toggle"
+            onClick={() => setSidebarOpen(!sidebarOpen)}
+          >
+            {sidebarOpen ? <X size={20} /> : <Menu size={20} />}
+          </button>
+        </div>
+
+        <nav className="sidebar-nav">
+          {navItems.map((item) => (
+            <button
+              key={item.id}
+              className={`nav-item ${activePage === item.id ? 'active' : ''}`}
+              onClick={() => setActivePage(item.id)}
+              title={item.label}
+            >
+              <item.icon size={24} />
+              {sidebarOpen && <span>{item.label}</span>}
+            </button>
+          ))}
+        </nav>
+
+        <div className="sidebar-footer">
+          <button
+            className="logout-btn"
+            onClick={handleLogout}
+            disabled={isSigningOut}
+            title="Sign out"
+          >
+            <LogOut size={20} />
+            {sidebarOpen && (
+              <span>{isSigningOut ? 'Signing out...' : 'Sign Out'}</span>
+            )}
+          </button>
+        </div>
+      </aside>
+
+      {/* Main Content */}
+      <main className="main-content">
+        {/* Top Navigation Bar */}
+        <div className="top-nav">
+          <div className="top-nav-left">
+            <button
+              className="mobile-menu-toggle"
+              onClick={() => setSidebarOpen(!sidebarOpen)}
+            >
+              {sidebarOpen ? <X size={24} /> : <Menu size={24} />}
+            </button>
+          </div>
+
+          <div className="top-nav-right">
+            <div className="user-profile">
+              <div className="user-avatar-small">{initials}</div>
+              <span className="user-name-display">{fullName}</span>
+            </div>
+          </div>
+        </div>
+
+        {/* Page Content */}
+        <div className="page-content">
+          {renderPage()}
+        </div>
+      </main>
+
+      {/* Mobile Bottom Navigation */}
+      <nav className="bottom-nav">
+        {navItems.map((item) => (
+          <button
+            key={item.id}
+            className={`bottom-nav-item ${activePage === item.id ? 'active' : ''}`}
+            onClick={() => setActivePage(item.id)}
+            title={item.label}
+          >
+            <item.icon size={24} />
+            <span>{item.label}</span>
+          </button>
+        ))}
+      </nav>
     </div>
   )
 }
