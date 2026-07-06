@@ -10,6 +10,7 @@ const Signup = () => {
   const [password, setPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
   const [localError, setLocalError] = useState(null)
+  const [successMessage, setSuccessMessage] = useState(null)
   const [isLoading, setIsLoading] = useState(false)
   const [agreeToTerms, setAgreeToTerms] = useState(false)
   const { signInWithGoogle, signUp, user, error: authError } = useAuth()
@@ -23,8 +24,35 @@ const Signup = () => {
   }, [user, navigate])
 
   const validateForm = () => {
-    if (!fullName || !email || !password || !confirmPassword) {
-      setLocalError('Please fill in all fields')
+    setLocalError(null)
+
+    if (!fullName.trim()) {
+      setLocalError('Please enter your full name')
+      return false
+    }
+
+    if (!email.trim()) {
+      setLocalError('Please enter your email address')
+      return false
+    }
+
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      setLocalError('Please enter a valid email address')
+      return false
+    }
+
+    if (!password) {
+      setLocalError('Please enter a password')
+      return false
+    }
+
+    if (password.length < 6) {
+      setLocalError('Password must be at least 6 characters long')
+      return false
+    }
+
+    if (!confirmPassword) {
+      setLocalError('Please confirm your password')
       return false
     }
 
@@ -33,13 +61,8 @@ const Signup = () => {
       return false
     }
 
-    if (password.length < 6) {
-      setLocalError('Password must be at least 6 characters')
-      return false
-    }
-
     if (!agreeToTerms) {
-      setLocalError('Please agree to the terms and conditions')
+      setLocalError('Please agree to the Terms of Service and Privacy Policy')
       return false
     }
 
@@ -49,32 +72,52 @@ const Signup = () => {
   const handleEmailSignup = async (e) => {
     e.preventDefault()
     setLocalError(null)
+    setSuccessMessage(null)
 
     if (!validateForm()) return
 
     setIsLoading(true)
-    const { error } = await signUp(email, password)
+    try {
+      const { data, error } = await signUp(email, password)
 
-    if (error) {
-      setLocalError(error.message)
-    } else {
-      setLocalError(null)
-      navigate('/login', {
-        state: { message: 'Sign up successful! Please sign in with your credentials.' },
-      })
+      if (error) {
+        setLocalError(error.message || 'Failed to create account. Please try again.')
+      } else if (data) {
+        setSuccessMessage('Account created successfully! Redirecting to login...')
+        setFullName('')
+        setEmail('')
+        setPassword('')
+        setConfirmPassword('')
+        setAgreeToTerms(false)
+        
+        setTimeout(() => {
+          navigate('/login', {
+            state: { message: 'Sign up successful! Please sign in with your credentials.' },
+          })
+        }, 2000)
+      }
+    } catch (err) {
+      setLocalError(err.message || 'An unexpected error occurred. Please try again.')
+    } finally {
+      setIsLoading(false)
     }
-    setIsLoading(false)
   }
 
   const handleGoogleSignup = async () => {
     setLocalError(null)
+    setSuccessMessage(null)
     setIsLoading(true)
-    const { error } = await signInWithGoogle()
+    try {
+      const { error } = await signInWithGoogle()
 
-    if (error) {
-      setLocalError(error.message)
+      if (error) {
+        setLocalError(error.message || 'Failed to sign up with Google. Please try again.')
+      }
+    } catch (err) {
+      setLocalError(err.message || 'An unexpected error occurred.')
+    } finally {
+      setIsLoading(false)
     }
-    setIsLoading(false)
   }
 
   const displayError = localError || authError
@@ -90,7 +133,7 @@ const Signup = () => {
             </div>
             <h1 className="auth-title">Join Quero Today</h1>
             <p className="auth-subtitle">
-              Create an account to start your exam preparation
+              Create an account to start your exam preparation journey
             </p>
           </div>
 
@@ -98,6 +141,13 @@ const Signup = () => {
           {displayError && (
             <div className="error-alert">
               <p>{displayError}</p>
+            </div>
+          )}
+
+          {/* Success Message */}
+          {successMessage && (
+            <div className="success-alert">
+              <p>{successMessage}</p>
             </div>
           )}
 
@@ -118,6 +168,7 @@ const Signup = () => {
                   placeholder="John Doe"
                   className="form-input"
                   disabled={isLoading}
+                  required
                 />
               </div>
             </div>
@@ -137,6 +188,7 @@ const Signup = () => {
                   placeholder="you@example.com"
                   className="form-input"
                   disabled={isLoading}
+                  required
                 />
               </div>
             </div>
@@ -156,6 +208,7 @@ const Signup = () => {
                   placeholder="••••••••"
                   className="form-input"
                   disabled={isLoading}
+                  required
                 />
               </div>
             </div>
@@ -175,6 +228,7 @@ const Signup = () => {
                   placeholder="••••••••"
                   className="form-input"
                   disabled={isLoading}
+                  required
                 />
               </div>
             </div>
