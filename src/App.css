@@ -10,13 +10,21 @@ html {
 
 body {
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-  background-color: #ffffff;
+  background-color: #f8f9fa;
   color: #1a1a2e;
   line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+#root {
+  width: 100%;
+  min-height: 100vh;
 }
 
 .app {
   overflow-x: hidden;
+  width: 100%;
 }
 
 /* Gradients */
@@ -86,6 +94,15 @@ body {
   }
   50% {
     opacity: 0.5;
+  }
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
   }
 }
 
@@ -166,6 +183,35 @@ body {
   max-width: 600px;
 }
 
+/* Loading Styles */
+.loading-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #ffffff 0%, #f9f7ff 100%);
+  width: 100%;
+}
+
+.loading-spinner {
+  text-align: center;
+}
+
+.spinner {
+  width: 50px;
+  height: 50px;
+  border: 4px solid rgba(108, 92, 231, 0.1);
+  border-top: 4px solid #6c5ce7;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin: 0 auto 16px;
+}
+
+.loading-spinner p {
+  color: #6b7280;
+  font-weight: 500;
+}
+
 /* Responsive */
 @media (max-width: 768px) {
   .section {
@@ -189,4 +235,34 @@ body {
   .section-title {
     font-size: 1.5rem;
   }
+}
+
+/* Scrollbar Styling */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #c4b5fd;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #a29bfe;
+}
+
+/* Selection */
+::selection {
+  background-color: #6c5ce7;
+  color: white;
+}
+
+::-moz-selection {
+  background-color: #6c5ce7;
+  color: white;
 }
